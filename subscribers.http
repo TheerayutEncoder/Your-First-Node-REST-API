@@ -47,3 +47,6 @@ Content-Type: application/json
 {
   "name": "Invalid Subscriber"
 }
+
+### 9. Get all subscribers again to verify the list is empty (200 OK; [] when empty)
+GET {{baseUrl}}/subscribers
