@@ -27,7 +27,7 @@ PUT {{baseUrl}}/members/{{memberId}}
 Content-Type: application/json
 
 {
-  "name": "Updated Demo Member",
+  "name": "Updated John Doe",
   "address": "456 Example Road, Bangkok",
   "telephone": "0898765432",
   "email": "updated@example.com",
