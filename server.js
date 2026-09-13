@@ -4,14 +4,26 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
-const db = mongoose.connection
-db.on('error', (error) => console.error(error))
-db.once('open', () => console.log('Connected to Database'))
-
 app.use(express.json())
 
-const subscribersRouter = require('./routes/subscribers')
-app.use('/subscribers', subscribersRouter)
+app.use('/members', require('./routes/members'))
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ message: 'Invalid JSON body' })
+  }
+  console.error(err)
+  res.status(500).json({ message: 'Internal server error' })
+})
 
-app.listen(3000, () => console.log('Server Started'))
+const port = process.env.PORT || 5001
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000
+}).then(() => {
+  console.log('Connected to Database')
+  app.listen(port, () => console.log(`Server Started on port ${port}`))
+}).catch((err) => {
+  console.error('Database connection failed:', err.message)
+  process.exitCode = 1
+})

@@ -1,19 +1,29 @@
 {
-  "name": "current-project",
+  "name": "node-rest-api",
   "version": "1.0.0",
   "description": "",
+  "homepage": "https://github.com/WebDevSimplified/Your-First-Node-REST-API#readme",
+  "bugs": {
+    "url": "https://github.com/WebDevSimplified/Your-First-Node-REST-API/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebDevSimplified/Your-First-Node-REST-API.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
-    "mongoose": "^5.5.7"
+    "express": "^4.22.2",
+    "mongoose": "^5.13.23"
   },
   "devDependencies": {
-    "dotenv": "^8.0.0",
-    "nodemon": "^1.19.0"
+    "dotenv": "^8.6.0",
+    "nodemon": "^1.19.4"
   }
 }

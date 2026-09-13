@@ -1,0 +1,58 @@
+# Run npm start first, then click Send Request in numbered order.
+# Request 2 captures the new ID automatically. Run it again to repeat the demo.
+@baseUrl = http://localhost:5001
+@memberId = {{createMember.response.body.$._id}}
+
+### 1. GET all members - 200 OK
+GET {{baseUrl}}/members
+
+### 2. POST a member - 201 Created
+# @name createMember
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "address": "123 Yen argard Road, Bangkok 12000",
+  "telephone": "0815555678",
+  "email": "j-doe@example.com",
+  "memberStartDate": "2026-09-13"
+}
+
+### 3. GET one member - 200 OK
+GET {{baseUrl}}/members/{{memberId}}
+
+### 4. PUT all member details - 200 OK
+PUT {{baseUrl}}/members/{{memberId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Demo Member",
+  "address": "456 Example Road, Bangkok",
+  "telephone": "0898765432",
+  "email": "updated@example.com",
+  "memberStartDate": "2026-09-13"
+}
+
+### 5. GET again to verify the update - 200 OK
+GET {{baseUrl}}/members/{{memberId}}
+
+### 6. DELETE the demo member - 200 OK
+DELETE {{baseUrl}}/members/{{memberId}}
+
+### 7. GET deleted member - 404 Not Found
+GET {{baseUrl}}/members/{{memberId}}
+
+### 8. GET list after deletion - 200 OK
+GET {{baseUrl}}/members
+
+### Optional: missing required fields - 400 Bad Request
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{
+  "name": "Incomplete Member"
+}
+
+### Optional: invalid ID - 400 Bad Request
+GET {{baseUrl}}/members/invalid-id

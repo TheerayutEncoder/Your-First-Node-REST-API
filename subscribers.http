@@ -1,0 +1,49 @@
+# Start MongoDB and run npm start in the terminal first.
+# In VS Code, click Send Request above each request, in numbered order.
+# Responses open in a separate panel. Expected status codes are noted below.
+# Request 2 saves its response so later requests can reuse the new subscriber ID.
+# To repeat the demo after deleting, run request 2 again to create a new subscriber.
+@baseUrl = http://localhost:5001
+@subscriberId = {{createSubscriber.response.body.$._id}}
+
+### 1. List all subscribers (200 OK; [] when empty)
+GET {{baseUrl}}/subscribers
+
+### 2. Create a subscriber (201 Created)
+# @name createSubscriber
+POST {{baseUrl}}/subscribers
+Content-Type: application/json
+
+{
+  "name": "Demo Subscriber",
+  "subscribedToChannel": "Web Dev Simplified"
+}
+
+### 3. Get the created subscriber by ID (200 OK)
+GET {{baseUrl}}/subscribers/{{subscriberId}}
+
+### 4. Edit the subscriber (200 OK; this API uses PATCH, not PUT)
+PATCH {{baseUrl}}/subscribers/{{subscriberId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Demo Subscriber",
+  "subscribedToChannel": "Software Architecture"
+}
+
+### 5. Read again to verify the changes (200 OK)
+GET {{baseUrl}}/subscribers/{{subscriberId}}
+
+### 6. Delete the demo subscriber (200 OK)
+DELETE {{baseUrl}}/subscribers/{{subscriberId}}
+
+### 7. Verify deletion (404 Not Found)
+GET {{baseUrl}}/subscribers/{{subscriberId}}
+
+### 8. Test validation: missing required channel (400 Bad Request)
+POST {{baseUrl}}/subscribers
+Content-Type: application/json
+
+{
+  "name": "Invalid Subscriber"
+}
